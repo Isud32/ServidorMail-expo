@@ -89,9 +89,9 @@ PY
         audio/*)
           echo "🔊 Audio attachment:"
           if command -v cvlc >/dev/null 2>&1; then
-              mpv --no-video --really-quiet "$a"
+              timeout 5s mpv --no-video "$a"
           else
-            echo "Install mpg123 for audio playback"
+            echo "Install mpv for audio playback"
           fi
           ;;
         video/*)

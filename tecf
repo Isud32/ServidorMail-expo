@@ -1,0 +1,185 @@
+#!/bin/bash
+RESET="\e[0m"
+BGREEN="\e[1;32m"
+BMAGENTA="\e[1;35m"
+BCYAN="\e[1;36m"
+BBLUE="\e[1;34m"
+BRED="\e[1;31m"
+BGRAY="\e[1;30m"
+OS="auto"
+# Enable cat ascii
+CAT="no"
+
+get_os_icon() {
+
+    local OS="$1"
+    shift
+         if [ "$CAT" == "no" ]; then
+         export ICON1="$BRED              "
+         export ICON2="$BRED          _   "
+         export ICON3="$BRED      ---(_)  "
+         export ICON4="$BRED  _/  ---  \\  "
+         export ICON5="$BRED (_) |   |    "
+         export ICON6="$BRED   \\  --- _/  "
+         export ICON7="$BRED      ---(_)  "
+         export ICON8="$BRED              "
+         export ICON9="$BRED              "
+         export ICON10="$BRED             "
+         fi
+         if [ "$CAT" == "yes" ]; then
+        #
+         export ICON1="$BBLUE            " 
+         export ICON2="$BBLUE            " 
+         export ICON3="$BBLUE            "
+         export ICON4="$BBLUE    /\_/\   "
+         export ICON5="$BBLUE   ( o.o )  "
+         export ICON6="$BBLUE    > ^ <   "
+         export ICON7="$BBLUE            "
+         export ICON8="$BBLUE            "
+         export ICON9="$BBLUE            "
+         export ICON10="$BBLUE           "
+        fi
+}
+get_user() {
+    whoami
+}
+
+#   Kernel's version.
+get_kernel() {
+    uname -r
+}
+
+get_ram() {
+    free -h | awk '/^Mem:/ {print $3 " / " $2 " (" $3/$2*100 "%)"}'
+}
+
+get_cpu() {
+    grep 'model name' /proc/cpuinfo | head -n 1 | sed 's/.*: //'
+}
+
+get_uptime() {
+    uptime -p
+}
+
+get_shell() {
+    basename "$SHELL"
+}
+
+get_ip() {
+    ip addr show | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | cut -d/ -f1
+}
+
+get_disk_usage() {
+    df -h --total | grep 'total' | awk '{print $3 " / " $2 " (" $5 ")"}'
+}
+
+get_host() {
+    if command -v hostname &>/dev/null; then
+        hostname
+    else
+        cat /proc/sys/kernel/hostname
+    fi
+}
+
+get_os() {
+    # get OS if the argument (OS) is set to auto.
+    if [ "$OS" == "auto" ]; then
+        # Check if /etc/os-release exists
+        if [ -f /etc/os-release ]; then
+            # Source os-release
+            . /etc/os-release
+
+            # Get variables
+            OS=$NAME
+        elif type lsb_release >/dev/null 2>&1; then
+            # linuxbase.org
+            OS=$(lsb_release -si)
+        elif [ -f /etc/lsb-release ]; then
+            # For some versions of Debian/Ubuntu without lsb_release command
+            ./etc/lsb-release
+            OS=$DISTRIB_ID
+        elif [ -f /etc/debian_version ]; then
+            # Older Debian/Ubuntu/etc.
+            OS=Debian
+        else
+            # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+            OS=$(uname -s)
+        fi
+    fi
+
+    echo "$OS"
+}
+
+
+
+print_section() {
+    local ICON="$1"
+    local SECTION="$2"
+    local VALUE="$3"
+
+    echo -e "$ICON    $SECTION $RESET$VALUE$RESET"
+}
+
+log() {
+
+    # Get arguments and set them as local variables
+    local USER="$1"
+    local OS="$2"
+    local KERNEL="$3"
+    local SHELL="$4"
+    local CPU="$5"
+    local UPTIME="$6"
+    local HOST="$7"
+    local IP_ADDRESS="$8"
+    local DISK_USAGE="$9"
+    local MEMORY="${10}"
+    print_section "$ICON1"
+    print_section "$ICON2" "$USER$BCYAN@$HOST" ""
+    print_section "$ICON3" "KERNEL" "$KERNEL"
+    print_section "$ICON4" "SHELL"  "$SHELL"
+    print_section "$ICON5" "UPTIME" "$UPTIME"
+    print_section "$ICON6" "CPU"    "$CPU"
+    print_section "$ICON7" "OS"     "$OS"
+    print_section "$ICON8" "IP"     "$IP_ADDRESS"
+    print_section "$ICON9" "DISK"   "$DISK_USAGE"
+   print_section "$ICON10" " MEMORY" "$MEMORY"
+}
+
+main() {
+    
+    # Get current linux user.
+    USER=$(get_user)
+
+    # Get linux kernel version
+    KERNEL=$(get_kernel)
+
+    # Get CPU information
+    CPU=$(get_cpu)
+
+    # Define the uptime
+    UPTIME=$(get_uptime)
+
+    # Get shell.
+    SHELL=$(get_shell)
+
+    # Get the linux's distro.
+    OS=$(get_os)
+
+    # Get user's host
+    HOST=$(get_host)
+    
+    # Get disk usage
+    DISK_USAGE=$(get_disk_usage)
+
+    # Get IP address
+    IP_ADDRESS=$(get_ip)
+
+    MEMORY=$(get_ram)
+
+    # Define distro's icon
+    get_os_icon "$OS"
+      
+    log "$USER" "$OS" "$KERNEL" "$SHELL" "$CPU" "$UPTIME" "$HOST" "$IP_ADDRESS" "$DISK_USAGE" "$MEMORY"
+}
+
+main "$@"

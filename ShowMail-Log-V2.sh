@@ -78,7 +78,7 @@ try:
     if body:
         panel_content += f"Contenido:\n{body}\n"
 
-    panel = Panel(panel_content, title="[✉]Correo Nuevo", border_style="green")
+    panel = Panel(panel_content, title="[✉ ]Correo Nuevo", border_style="green")
     console.print(panel)
 
     # Extract attachments

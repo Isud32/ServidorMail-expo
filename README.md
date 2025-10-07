@@ -1,4 +1,5 @@
 # ServidorMail-expo
+Create folder maildata
 Install docker and docker-compose
 
 Dependencies:

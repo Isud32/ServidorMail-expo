@@ -26,7 +26,7 @@ usar la funcion del router para bindear una ip local a un dominio , o usar bind9
 
 # En caso de querer x11
 sudo apt install xorg x11-xserver-utils xwallpaper alacritty xrandr<br>
-.xinitrc: 
+.xinitrc: <br>
 xrandr --output "monitor" --mode "resolution"<br>
 xwallpaper --zoom Imgs/wallpapers/LegacyWall.jpg &<br>
 xset s off -dpms<br> 

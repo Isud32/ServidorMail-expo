@@ -4,8 +4,8 @@ Install docker and docker-compose<br>
 
 Dependencies:
 - ShowMail-Log.sh: mpv, chafa, inotify-tools<br>
-
-Install:<br>
+<br>
+Install:
 - git, tmux, vim, openssh, wget<br>
 ----<br>
 # Run docker

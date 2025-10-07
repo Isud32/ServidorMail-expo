@@ -1,0 +1,21 @@
+services:
+  web:
+    build: ./web
+    ports:
+      - "0.0.0.0:8080:8080"     #
+    depends_on:
+      - postfix
+    networks:
+      - mailnet
+
+  postfix:
+    build: ./postfix
+    ports:
+      - "2525:25"       # map to host 2525 to avoid privileged ports during local dev
+    volumes:
+      - ./maildata:/data/mail_in   # shared folder where pipe/script writes files
+    networks:
+      - mailnet
+
+networks:
+  mailnet:

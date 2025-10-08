@@ -1,0 +1,8 @@
+All fonts to /usr/share/fonts/
+or .local/share/fonts
+
+.psf for tyy and .tff for X11
+
+tty:
+setfont path
+

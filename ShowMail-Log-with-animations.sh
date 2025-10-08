@@ -34,8 +34,8 @@ draw_box() {
 }
 msg="Watching directory: $WATCH_DIR"
 draw_box "$msg"
-
-inotifywait -q -m -e close_write --format '%f' "$WATCH_DIR" | while read F; do
+while true; do
+  F=$(inotifywait -q -e close_write --format '%f' "$WATCH_DIR")
   EMFILE="$WATCH_DIR/$F"
 
   sleep 0.5
@@ -43,67 +43,8 @@ inotifywait -q -m -e close_write --format '%f' "$WATCH_DIR" | while read F; do
   File: $EMFILE"
   draw_box "$msg"
 
-  # Parse and display email
-  python3 - <<PY
-import email, sys, os, mimetypes, datetime
-# Rich for box decorations
-from rich.console import Console
-from rich.panel import Panel
-
-console = Console()
-p = "$EMFILE"
-ts = os.path.getmtime(p)
-date_formatted = datetime.datetime.fromtimestamp(ts).strftime("%d-%m-%Y %H:%M:%S")
-try:
-    with open(p,'rb') as f:
-        msg = email.message_from_binary_file(f)
-    sender = msg.get('From','<unknown>')
-    reciber = msg.get('To','<unknown>')
-    subject = msg.get('Subject','<no subject>')
-
-    # Get message body
-    body = ""
-    if msg.is_multipart():
-        for part in msg.walk():
-            if part.get_content_type() == "text/plain":
-                body = part.get_payload(decode=True).decode('utf-8', errors='ignore')
-                break
-    else:
-        body = msg.get_payload(decode=True).decode('utf-8', errors='ignore')
-
-    if body and len(body) > 500:
-        body = body[:500] + "..."
-
-    # Create a Rich panel for the email
-    panel_content = f"De: {sender}\nPara: {reciber}\nAsunto: {subject}\nFecha: {date_formatted}\n\n"
-    if body:
-        panel_content += f"Contenido:\n{body}\n"
-
-    panel = Panel(panel_content, title="[✉ ]Correo Nuevo", border_style="green")
-    console.print(panel)
-
-    # Extract attachments
-    outdir = "tmp/"
-    os.makedirs(outdir, exist_ok=True)
-    
-    attachment_count = 0
-    for part in msg.walk():
-        if part.get_content_maintype() == 'multipart' or part.get('Content-Disposition') is None:
-            continue
-            
-        filename = part.get_filename()
-        if filename:
-            attachment_count += 1
-            path = os.path.join(outdir, filename)
-            with open(path, 'wb') as of:
-                of.write(part.get_payload(decode=True))
-            console.print(f"[green]Archivo Guardado:[/green] {filename} ({part.get_content_type()})")
-    
-    console.print(f"[yellow]Archvios Totales:[/yellow] {attachment_count}")
-
-except Exception as e:
-    console.print(f"[red]Error processing email:[/red] {e}")
-PY
+# Parse and display email
+python3 eml_parser.py "$EMFILE"
 
   # Process attachments if any exist
   if [ -d "tmp/" ]; then

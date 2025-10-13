@@ -2,6 +2,7 @@ from flask import Flask, request, render_template_string, redirect
 import smtplib
 from email.message import EmailMessage
 import os
+from waitress import serve
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 300 * 1024 * 1024  # 300MB max upload
@@ -40,5 +41,5 @@ def index():
     return render_template_string(TEMPLATE)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    serve(app, host="0.0.0.0", port=8080)
 

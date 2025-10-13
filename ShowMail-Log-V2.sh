@@ -116,7 +116,7 @@ PY
       
       case "$mime" in
         image/*)
-          echo "📷 Image attachment:"
+          echo "📷 Imagen adjunta:"
           if command -v chafa >/dev/null 2>&1; then
             chafa --size=40 "$a"
           else
@@ -124,29 +124,28 @@ PY
           fi
           ;;
         audio/*)
-          echo "🔊 Audio attachment:"
-          if command -v cvlc >/dev/null 2>&1; then
-              timeout 5s mpv --no-video "$a"
+          echo "🔊 Audio adjunto:"
+          if command -v mpv >/dev/null 2>&1; then
+              timeout 10s mpv --no-video "$a"
           else
             echo "Install mpv for audio playback"
           fi
           ;;
         video/*)
-          echo "🎥 Video attachment:"
+          echo "🎥 Video adjunto:"
           if command -v mpv >/dev/null 2>&1; then
-            echo "Playing attached video for 30s"
+            echo "Reproduciendo 10 segundos del video adjunto..."
             sleep 3
-            timeout 5s mpv --vo=tct --really-quiet "$a"
+            timeout 10s mpv --vo=tct --quiet "$a"
             echo "Finished playing video"
           else
             echo "Install 'mpv' with --vo=tct for video preview"
           fi
           ;;
         *)
-          echo "📄 Attachment: $filename (type: $mime)"
+          echo "📄 Archivo adjunto: $filename (tipo: $mime)"
           ;;
       esac
-      echo "---"
     done
     # Cleanup
     rm -rf tmp/*

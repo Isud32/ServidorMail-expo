@@ -1,6 +1,6 @@
 import requests
 
-url = "http://192.168.1.61:8080/"
+url = "http://192.168.1.32"
 data = {
     "from": "PythonScriptTEST@local",
     "to": "display@server.local",

@@ -1,0 +1,127 @@
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 15px;
+  color: #333;
+}
+
+
+.container {
+  width: 100%;
+  max-width: 800px;
+}
+
+
+.mail-form {
+  background: #fefeff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.mail-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 15px;
+  gap: 6px;
+}
+
+.mail-form input[type="text"],
+.mail-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  background-color: rgb(247, 252, 255);
+}
+
+.mail-form input[type="text"]:focus,
+.mail-form textarea:focus {
+  border-color: #003996;
+  box-shadow: 0 0 5px rgba(75, 141, 248, 0.3);
+  outline: none;
+}
+
+
+.mail-form textarea {
+  resize: vertical;
+}
+
+
+.mail-form input[type="file"] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: rgb(247,252,255);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.mail-form input[type="file"]:hover {
+  background-color: rgb(247, 252, 255);
+  border-color: #003fa4;
+}
+
+
+.mail-form button {
+  align-self: center;
+  background-color: #0044b0;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.mail-form button:hover {
+  background-color: #0056e1;
+  transform: translateY(-1px);
+}
+
+
+@media (max-width: 600px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  .mail-form {
+    padding: 20px;
+  }
+
+  .mail-form button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.logo { 
+    display: block;
+    margin: 0 auto 20px auto;
+    max-width: 110px;
+    height: auto;
+    opacity: 0.95;
+    transition: transform 0.2 ease;
+
+}
+::placeholder{
+    color: #003996;
+    opacity: 0.3;
+}

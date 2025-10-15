@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Starting Postfix container..."
+echo "Starting Postfix container... :3"
 
 # Create directory for mail storage
 mkdir -p /data/mail_in
@@ -10,7 +10,7 @@ chmod 777 /data/mail_in
 
 # Basic Postfix configuration
 postconf -e "inet_interfaces = all"
-postconf -e "mydestination = localhost, server.local"
+postconf -e "mydestination = localhost, tec2.com"
 postconf -e "mynetworks = 127.0.0.0/8, 172.16.0.0/12, 10.0.0.0/8, 192.168.0.0/16"
 postconf -e "alias_maps = hash:/etc/aliases"
 postconf -e "alias_database = hash:/etc/aliases"
@@ -38,12 +38,13 @@ SH
 chmod +x /usr/local/bin/save-mail.sh
 
 # Set up aliases - ONLY LOCAL NAMES, no @ symbols!
-echo "display: |/usr/local/bin/save-mail.sh" > /etc/aliases
+echo "servertec2: |/usr/local/bin/save-mail.sh" > /etc/aliases
+echo "tec2: |/usr/local/bin/save-mail.sh" > /etc/aliases
 echo "test: |/usr/local/bin/save-mail.sh" >> /etc/aliases
 newaliases
 
-echo "Postfix configuration complete"
-echo "Starting Postfix in foreground..."
-
+echo "Postfix configuration complete Yay :)"
+echo "Starting Postfix in foreground... :<"
+echo "Mmm sisi que mira vo."
 # Start Postfix
 exec /usr/sbin/postfix start-fg

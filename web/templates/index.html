@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+     content="widht=device-width,initial-scale=1.0">
+    <title>MailServer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+    <main class="container">
+        <img src="{{ url_for('static', filename='logotec.jpg') }}" alt="logo escuela"
+        class="logo">
+        <form method="post" enctype="multipart/form-data" class="mail-form">
+            <label><strong>De:</strong>
+                <input type="text" name="from" value="user@tec2.com"
+                placeholder="user@tec2.com" required>
+            </label>
+            <label><strong>Para:</strong>
+                <input type="text" name="to"
+                placeholder="tec2@tec2.com"
+                value="tec2@tec2.com" required>
+            </label>
+            <label><strong>Asunto:</strong>
+                <input type="text" name="subject">
+            </label>
+            <label><strong>Mensaje:</strong>
+                <textarea name="body" rows="6"></textarea>
+            </label>
+            <label><strong>Archivos adjuntos</strong>
+                <input type=file name="file">
+            </label>
+            <button type="submit">Enviar</button>
+        </form>
+    </main>
+</body>
+</html>

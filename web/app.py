@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string, redirect
+from flask import Flask, request, render_template, redirect
 import smtplib
 from email.message import EmailMessage
 import os
@@ -7,16 +7,6 @@ from waitress import serve
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 300 * 1024 * 1024  # 300MB max upload
 
-TEMPLATE = """
-<form method="post" enctype="multipart/form-data">
-  From: <input name="from" value="user@local"><br>
-  To: <input name="to" value="display@server.local"><br>
-  Subject: <input name="subject"><br>
-  Message: <textarea name="body"></textarea><br>
-  Attachment: <input type="file" name="file"><br>
-  <button>Send</button>
-</form>
-"""
 @app.errorhandler(413)
 def too_large(e):
     return "File is too large. Maximum size is 300MB.", 413
@@ -38,7 +28,7 @@ def index():
         with smtplib.SMTP(host="postfix", port=25) as s:
             s.send_message(msg)
         return "sent"
-    return render_template_string(TEMPLATE)
+    return render_template("index.html")
 
 if __name__ == "__main__":
     serve(app, host="0.0.0.0", port=8080)

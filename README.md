@@ -35,7 +35,7 @@ exec dwm<br>
 dowload dwm from my dotfiles.<br>
 
 # expo 2025
-Ultima exposicion :'/
- o7
-/|
-/ \
+Ultima exposicion :'/<br>
+ o7 <br>
+/| <br>
+/ \ <br>

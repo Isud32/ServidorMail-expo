@@ -136,7 +136,7 @@ PY
           if command -v mpv >/dev/null 2>&1; then
             echo "Reproduciendo 10 segundos del video adjunto..."
             sleep 3
-            timeout 10s mpv --vo=tct --quiet "$a"
+            timeout 10s mpv --vo=tct --vo-tct-algo=plain --quiet "$a"
             echo "Finished playing video"
           else
             echo "Install 'mpv' with --vo=tct for video preview"

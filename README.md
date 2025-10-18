@@ -34,3 +34,5 @@ xset s off -dpms<br>
 exec dwm<br>
 dowload dwm from my dotfiles.<br>
 
+# expo 2025
+Ultima exposicion :'/
